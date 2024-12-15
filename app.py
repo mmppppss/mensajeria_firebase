@@ -83,7 +83,6 @@ def send_message():
     if not message or not user:
         return jsonify({'error': 'Faltan campos'}), 400
 
-    user = session["username"]
     ref = db.reference('messages')
     ref.push({
         'user': user,
