@@ -1,0 +1,43 @@
+/*/ para chat.html /*/
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f0f0f0;
+}
+
+.chat-box {
+	width: 300px;
+	margin: 0 auto;
+	background-color: white;
+	border: 1px solid #ccc;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+.chat-header {
+	margin-bottom: 10px;
+}
+
+.chat-messages {
+	height: 200px;
+	overflow-y: scroll;
+	border: 1px solid #ccc;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.chat-input {
+	width: flex;
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+.chat-send-button {
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}

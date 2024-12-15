@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+
+    <script type="module">
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+		import { getAuth, signInWithEmailAndPassword, getIdToken } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+		const firebaseConfig = {
+			apiKey: "AIzaSyD3U3qRcg0sw6Fe-QvClod0k0GhR2H5368",
+			authDomain: "mensajeria-c2f1f.firebaseapp.com",
+			databaseURL: "https://mensajeria-c2f1f-default-rtdb.firebaseio.com",
+			projectId: "mensajeria-c2f1f",
+			storageBucket: "mensajeria-c2f1f.firebasestorage.app",
+			messagingSenderId: "825498845893",
+			appId: "1:825498845893:web:0f269291527201a24266ac"
+
+		};
+		const app = initializeApp(firebaseConfig);
+		const auth = getAuth(app);
+
+		const loginForm = document.getElementById("loginForm");
+
+		loginForm.addEventListener("submit", async (event) => {
+		event.preventDefault();  
+
+		const email = document.getElementById("email").value;
+		const password = document.getElementById("password").value;
+
+		try {
+			const userCredential = await signInWithEmailAndPassword(auth, email, password);
+			const idToken = await getIdToken(userCredential.user);
+
+			const response = await fetch('/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ idToken })
+			});
+
+			const data = await response.json();
+
+			if (data.message === "Autenticación exitosa") {
+				window.location.href = '/'; 
+			} else {
+				alert("Error de autenticación: " + data.error);
+			}
+		} catch (error) {
+			alert("Credenciales incorrectas: " + error.message);
+		}
+	});
+	</script>
+</head>
+<body>
+	<form id="loginForm">
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email" required placeholder="Email">
+		<label for="password">Contraseña:</label>
+		<input type="password" id="password" name="password" required placeholder="Password">
+		<input type="submit" id="submit" value="Login">
+	</form>
+</body>
+</html>
+

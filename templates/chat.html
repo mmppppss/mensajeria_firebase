@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='stylechat.css') }}" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById('message').value;
+			const user = document.getElementById('username').textContent;
+            const response = await fetch('/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user, message })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                document.getElementById('message').value = '';
+                loadMessages(); // Recargar mensajes después de enviar
+            } else {
+                alert('Error enviando el mensaje');
+            }
+        }
+
+        async function loadMessages() {
+            const response = await fetch('/get_messages');
+            const messages = await response.json();
+
+            const messageList = document.getElementById('messageList');
+            messageList.innerHTML = ''; // Limpiar mensajes previos
+
+            for (const key in messages) {
+                const msg = messages[key];
+                const item = document.createElement('li');
+                item.textContent = `${msg.user}: ${msg.message}`;
+                messageList.appendChild(item);
+            }
+        }
+
+        // Cargar mensajes al iniciar
+        window.onload = loadMessages;
+    </script>
+</head>
+<body>
+    <h1>Chat</h1>
+    <p>Bienvenido, <span id="username">{{ username }}</span></p>
+    <ul  class="chat-messages" id="messageList"></ul>
+    <input type="text" id="message" class="chat-input" placeholder="Tu mensaje" />
+    <button class="chat-send-button" onclick="sendMessage()">Enviar</button>
+</body>
+</html>
