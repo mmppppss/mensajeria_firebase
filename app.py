@@ -67,7 +67,7 @@ def login():
             session['user_uid'] = user.uid
             session['username'] = username
             print(username)
-            return jsonify({'message': 'Autenticación exitosa'}), 200
+            return jsonify({'message': 'Autenticación exitosa', 'username': username}), 200
 
         except Exception as e:
             return jsonify({'error': str(e)}), 400
@@ -80,6 +80,9 @@ def send_message():
     data = request.json
     message = data.get('message')
     user = data.get('user')
+    print(
+            "reer"
+            )
     if not message or not user:
         return jsonify({'error': 'Faltan campos'}), 400
 
@@ -88,6 +91,7 @@ def send_message():
         'user': user,
         'message': message
     })
+    print("enviando")
     return jsonify({'success': True})
 
 @app.route('/get_messages', methods=['GET'])
@@ -100,5 +104,5 @@ def get_messages():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host="172.26.6.25")
 
