@@ -104,5 +104,6 @@ def get_messages():
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host="172.26.6.25")
+    #app.run(debug=False, host="172.26.6.25")
+    app.run(debug=False)
 
