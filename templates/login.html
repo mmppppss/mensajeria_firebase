@@ -48,6 +48,7 @@
 			const data = await response.json();
 
 			if (data.message === "Autenticación exitosa") {
+				localStorage.setItem('username', data.username)
 				window.location.href = '/'; 
 			} else {
 				alert("Error de autenticación: " + data.error);
@@ -66,6 +67,7 @@
 		<input type="password" id="password" name="password" required placeholder="Password">
 		<input type="submit" id="submit" value="Login">
 	</form>
-	<button type="submit">Registrarse</button>
+
+	<a href="/registrarse">Crear Cuenta</a>
 </body>
 </html>
