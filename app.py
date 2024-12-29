@@ -80,6 +80,7 @@ def send_message():
     data = request.json
     message = data.get('message')
     user = data.get('user')
+    tipo =  data.get('tipo')
     print(
             "reer"
             )
@@ -89,7 +90,8 @@ def send_message():
     ref = db.reference('messages')
     ref.push({
         'user': user,
-        'message': message
+        'message': message,
+        'tipo': tipo
     })
     print("enviando")
     return jsonify({'success': True})
