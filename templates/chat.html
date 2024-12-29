@@ -7,7 +7,11 @@
 		let previousMessages = null;
 		const user = localStorage.getItem('username')
         async function sendMessage() {
-            const message = document.getElementById('message').value;
+			const negrita = document.getElementById('checkbox').checked;
+            var message = document.getElementById('message').value;
+			if (negrita) {
+				message = "<b>" + message + "</b>";
+			}
 			const tipo = document.getElementById('tipo').value;
 			console.log(tipo);
             const response = await fetch('/send_message', {
@@ -39,7 +43,7 @@
                 	for (const key in messages) {
                     	const msg = messages[key];
                     	const item = document.createElement('li');
-						item.textContent = `${msg.user}: ${msg.message} | [${msg.tipo}]`; ;
+						item.innerHTML = `${msg.user}: ${msg.message} | [${msg.tipo}]`; 
                     	messageList.appendChild(item);
                 	}
                 	previousMessages = messages;
@@ -69,6 +73,7 @@
 		<option value="solucion">solucion</option>
 	</select>
     <input type="text" id="message" class="chat-input" placeholder="Tu mensaje" />
+	<label for="checkbox">Negrita: </label><input id="checkbox" type="checkbox" name="n" value="">
     <button class="chat-send-button" onclick="sendMessage()">Enviar</button>
 </body>
 </html>
